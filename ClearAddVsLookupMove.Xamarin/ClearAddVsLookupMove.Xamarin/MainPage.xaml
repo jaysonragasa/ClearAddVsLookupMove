@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="ClearAddVsLookupMove.Xamarin.MainPage"
+             
+             BindingContext="{Binding Source={StaticResource Locator}}"
+             xmlns:jio="clr-namespace:Jara.Xaml.Control.Extension;assembly=Jara.Xaml.ControlExtensions.Xamarin"
+             >
+
+    <Grid jio:GridEx.GridDefinitions="* ~">
+        <Grid.Resources>
+            <Style TargetType="Frame">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </Grid.Resources>
+        
+        <Frame>
+            <Grid jio:GridEx.GridDefinitions="~ ~ *">
+                <!--info-->
+                <Grid BackgroundColor="#FFE49075" Margin="0,0,0,3">
+                    <Label Text="HotReload" FontSize="10" Margin="10" TextColor="White" />
+                </Grid>
+                
+                <!--#region header-->
+                <Grid jio:GridEx.ColumnDefinitions="1*,*,*" HeightRequest="30" Grid.Row="1">
+                    <Label Text="Country" FontAttributes="Bold" Grid.Column="0" FontSize="13">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Main.Command_SortByCountry}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Population" TextColor="#FFF4C363" FontAttributes="Bold" Grid.Column="1" FontSize="13"  HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Main.Command_SortByPopulation}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Total Energy" TextColor="#FF60BB69" FontAttributes="Bold" Grid.Column="2" FontSize="13"  HorizontalTextAlignment="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Main.Command_SortByTotalEnergyConsumption}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Grid Grid.ColumnSpan="3" HeightRequest="1" BackgroundColor="#80000000" VerticalOptions="End" />
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region list-->
+                <ListView Grid.Row="2" ItemsSource="{Binding Main.Countries}" SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid jio:GridEx.ColumnDefinitions="1*,*,*">
+                                    <Label Text="{Binding CountryName}" FontAttributes="Bold" Grid.Column="0" FontSize="13" VerticalOptions="Center" />
+                                    <Label Text="{Binding TotalPopulation, StringFormat='{}{0:#,0}'}" TextColor="#FFF4C363" FontAttributes="Bold" Grid.Column="1" FontSize="13"  HorizontalTextAlignment="Center" VerticalOptions="Center" />
+                                    <Label Text="{Binding TotalEnergyConsumption, StringFormat='{}{0:#,0}'}" TextColor="#FF60BB69" FontAttributes="Bold" Grid.Column="2" FontSize="13"  HorizontalTextAlignment="End" VerticalOptions="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <!--#endregion-->
+            </Grid>
+        </Frame>
+
+        <Frame Grid.Row="1">
+            <StackLayout>
+                <Grid>
+                    <Label Text="Use Lazy" />
+                    <Switch IsToggled="{Binding Main.UseLazy}" HorizontalOptions="End" />
+                </Grid>
+
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Load duration: " />
+                            <Span Text="{Binding Main.Duration}" />
+                            <Span Text="ms" />
+                            <Span Text="&#xA;" />
+                            <Span Text="Total items in the list: " />
+                            <Span Text="{Binding Main.TotalItems}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </Frame>
+    </Grid>
+
+</ContentPage>
