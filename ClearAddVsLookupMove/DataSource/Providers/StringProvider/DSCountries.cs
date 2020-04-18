@@ -2,6 +2,7 @@
 using ClearAddVsLookupMove.Library.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ClearAddVsLookupMove.Library.DataSource.Providers.StringProvider
@@ -23,7 +24,7 @@ namespace ClearAddVsLookupMove.Library.DataSource.Providers.StringProvider
 
             var countries = countries_raw.Split(',');
 
-            for (int i = 0; i < countries.Length; i++)
+            for (int i = 0; i < countries.Count(); i++)
             {
                 countrylists.Add(new DTO_Model_CountryDetails()
                 {

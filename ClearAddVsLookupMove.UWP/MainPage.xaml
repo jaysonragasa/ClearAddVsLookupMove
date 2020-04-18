@@ -1,0 +1,92 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:jio="using:Jara.Xaml.Control.Extension"
+    
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:c="using:Microsoft.Xaml.Interactions.Core"
+    
+    x:Class="ClearAddVsLookupMove.UWP.MainPage"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    
+    DataContext="{Binding Source={StaticResource Locator}}"
+    >
+
+    <Grid jio:GridEx.GridDefinitions="* ~">
+        <Grid.Resources>
+            <Style TargetType="Frame">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </Grid.Resources>
+
+        <Frame>
+            <Grid jio:GridEx.GridDefinitions="~ ~ *">
+                <!--info-->
+                <Grid Background="#FFE49075" Margin="0,0,0,3">
+                    <TextBlock Text="Tap on the column header to sort" FontSize="10" Margin="10" Foreground="White" />
+                </Grid>
+
+                <!--#region header-->
+                <Grid jio:GridEx.ColumnDefinitions="1*,*,*" Height="30" Grid.Row="1">
+                    <TextBlock x:Name="lblCountry" Text="Country" FontWeight="Bold" Grid.Column="0" FontSize="13">
+                        <i:Interaction.Behaviors>
+                            <c:EventTriggerBehavior EventName="PointerPressed">
+                                <c:InvokeCommandAction Command="{Binding Main.Command_SortByCountry}"/>
+                            </c:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
+                    <TextBlock Text="Population" Foreground="#FFF4C363" FontWeight="Bold" Grid.Column="1" FontSize="13"  HorizontalTextAlignment="Center">
+                        <i:Interaction.Behaviors>
+                            <c:EventTriggerBehavior EventName="PointerPressed">
+                                <c:InvokeCommandAction Command="{Binding Main.Command_SortByPopulation}"/>
+                            </c:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
+                    <TextBlock Text="Total Energy" Foreground="#FF60BB69" FontWeight="Bold" Grid.Column="2" FontSize="13"  HorizontalTextAlignment="End">
+                        <i:Interaction.Behaviors>
+                            <c:EventTriggerBehavior EventName="PointerPressed">
+                                <c:InvokeCommandAction Command="{Binding Main.Command_SortByTotalEnergyConsumption}"/>
+                            </c:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </TextBlock>
+
+                    <Grid Grid.ColumnSpan="3" Height="1" Background="#80000000" VerticalAlignment="Bottom" />
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region list-->
+                <ListView Grid.Row="2" ItemsSource="{Binding Main.Countries}" SelectionMode="None">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid jio:GridEx.ColumnDefinitions="1*,*,*">
+                                <TextBlock Text="{Binding CountryName}" FontWeight="Bold" Grid.Column="0" FontSize="13" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalPopulation}" Foreground="#FFF4C363" FontWeight="Bold" Grid.Column="1" FontSize="13"  HorizontalTextAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding TotalEnergyConsumption}" Foreground="#FF60BB69" FontWeight="Bold" Grid.Column="2" FontSize="13"  HorizontalTextAlignment="End" VerticalAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <!--#endregion-->
+            </Grid>
+        </Frame>
+
+        <Frame Grid.Row="1">
+            <StackPanel>
+                <Grid>
+                    <TextBlock Text="Use Lazy" />
+                    <CheckBox IsChecked="{Binding Main.UseLazy}" HorizontalAlignment="Right" />
+                </Grid>
+
+                <TextBlock><Run Text="Load duration: " /><Run Text=" "/><Run Text="{Binding Main.Duration}" /><Run Text=" "/><Run Text="ms" /><Run Text=" "/><Run Text="&#xA;" /><Run Text=" "/><Run Text="Total items in the list: " /><Run Text=" "/><Run Text="{Binding Main.TotalItems}" /></TextBlock>
+            </StackPanel>
+        </Frame>
+    </Grid>
+</Page>
